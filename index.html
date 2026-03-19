@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOFYGRAM | صوفي كرام للحلول</title>
+    <title>SOFYGRAM | صوفيگرام</title>
     <style>
-        /* --- قسم الـ CSS (التصميم) --- */
         body {
             margin: 0;
             background-color: #000;
@@ -18,80 +17,48 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
+            padding: 10px 5%;
+            background: rgba(0,0,0,0.9);
             position: sticky;
             top: 0;
             z-index: 1000;
+            border-bottom: 1px solid #222;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #f39c12;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .clock-icon {
-            width: 30px;
-            height: 30px;
-            border: 2px solid #f39c12;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .clock-icon::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 2px;
-            background: #f39c12;
-            top: 50%;
-            left: 50%;
-        }
+        .logo img { height: 55px; width: auto; display: block; }
 
         #lang-btn {
             background: transparent;
             border: 1px solid #f39c12;
             color: #f39c12;
-            padding: 8px 20px;
+            padding: 7px 18px;
             border-radius: 20px;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        #lang-btn:hover {
-            background: #f39c12;
-            color: #000;
+        .hero { text-align: center; padding: 120px 20px; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); }
+
+        /* الكلمة المدمجة "صوفيگرام" مع الخط البرتقالي */
+        .brand-name {
+            font-size: 4.5rem;
+            font-weight: bold;
+            display: inline-block;
+            position: relative;
         }
 
-        .hero {
-            text-align: center;
-            padding: 100px 5%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+        .orange-line {
+            position: absolute;
+            top: 15px; /* مكان الخط فوق حرف الـ گ */
+            left: 15%; /* موازنة الخط فوق الجزء الصحيح من الكلمة */
+            width: 35%; 
+            height: 5px;
+            background: #ff6600;
+            box-shadow: 0 0 15px #ff6600;
+            border-radius: 2px;
         }
 
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .kaf-style {
-            color: #f39c12;
-            border-top: 4px solid #f39c12;
-            padding-top: 5px;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #ccc;
-            max-width: 800px;
-            margin: 0 auto 40px;
-        }
-
+        .hero p { font-size: 1.3rem; color: #ccc; max-width: 800px; margin: 30px auto; line-height: 1.6; }
+        
         .btn {
             background: linear-gradient(45deg, #d35400, #f39c12);
             color: white;
@@ -99,175 +66,72 @@
             text-decoration: none;
             border-radius: 30px;
             font-weight: bold;
-            font-size: 1.1rem;
-            transition: 0.3s;
             display: inline-block;
         }
 
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(243, 156, 18, 0.4);
-        }
+        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 50px 5%; }
+        .card { background: #111; padding: 35px; border-radius: 20px; text-align: center; border: 1px solid #222; cursor: pointer; transition: 0.3s; }
+        .card:hover { border-color: #f39c12; transform: translateY(-10px); }
 
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 50px 5%;
-        }
-
-        .project-card {
-            background: #111;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid #222;
-            transition: 0.3s;
-        }
-
-        .project-card:hover {
-            border-color: #f39c12;
-            transform: translateY(-10px);
-        }
-
-        .icon-big {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: #25d366;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            z-index: 1000;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid #222;
-            color: #666;
-        }
-
-        /* تنسيق اللغة الإنجليزية */
-        body.en {
-            direction: ltr;
-            /* تصميم اللوجو الفخم */
-.logo img {
-    height: 60px;
-    width: auto;
-    display: block;
-    float: right;
-    margin-right: 20px;
-}
+        footer { text-align: center; padding: 40px; border-top: 1px solid #222; color: #666; }
+        body.en { direction: ltr; }
     </style>
 </head>
 <body id="page-body">
 
 <header>
     <div class="logo">
-        
+        <img src="logo.png" alt="صوفيگرام">
     </div>
-    <div class="nav-links">
-        <button id="lang-btn" onclick="toggleLang()">English</button>
-    </div>
+    <button id="lang-btn" onclick="toggleLang()">English</button>
 </header>
 
 <section class="hero">
-    <h1 id="hero-title">صوفي <span class="kaf-style">كـ</span>رام للحلول</h1>
-    <p id="hero-desc">نصمم لك بصمة رقمية فريدة. صفحات شخصية احترافية، تطبيقات مطاعم نموذجية، وحلول برمجية مبتكرة.</p>
+    <div class="brand-name" id="hero-title">
+        صوفيگرام للحلول
+        <div class="orange-line"></div>
+    </div>
+    
+    <p id="hero-desc">نصمم لك بصمة رقمية فريدة. صفحات شخصية احترافية، تطبيقات مطاعم نموذجية، وحلول برمجية مبتكرة لأنسب الأسعار في العراق والعالم.</p>
     <a href="https://wa.me/9647807466488" id="main-btn" class="btn">ابدأ مشروعك الآن</a>
 </section>
 
 <section class="projects">
-    <div class="project-card" onclick="location.href='model-restaurant.html'" style="cursor:pointer">
-        <div class="icon-big">🍽️</div>
+    <div class="card" onclick="location.href='model-restaurant.html'">
+        <div style="font-size: 3rem; margin-bottom: 15px;">🍽️</div>
         <h3 id="p1-title">مطعم نموذجي</h3>
-        <p id="p1-desc">تصميم أنظمة مطاعم متكاملة مع لوحات تحكم ذكية ومنيو تفاعلي.</p>
+        <p id="p1-desc">اطلع على النموذج الفخم لتطبيقات المطاعم الذكية.</p>
     </div>
-    <div class="project-card">
-        <div class="icon-big">👤</div>
+    <div class="card">
+        <div style="font-size: 3rem; margin-bottom: 15px;">👤</div>
         <h3 id="p2-title">صفحات شخصية</h3>
-        <p id="p2-desc">بناء مواقع تعريفية (Portfolio) مميزة للمبدعين وأصحاب المهن.</p>
-    </div>
-    <div class="project-card">
-        <div class="icon-big">📱</div>
-        <h3 id="p3-title">تطبيقات متنوعة</h3>
-        <p id="p3-desc">حلول برمجية حسب الطلب (تكسي، ألعاب، أدوات) بأحدث التقنيات.</p>
+        <p id="p2-desc">بناء هويات رقمية متكاملة للمبدعين والشركات.</p>
     </div>
 </section>
 
-<a href="https://wa.me/9647807466488" class="whatsapp-float" target="_blank" id="wa-link">
-    <span id="wa-text">تواصل معنا</span>
-    <div class="whatsapp-icon">💬</div>
-</a>
-
 <footer>
-    <p id="footer-text">جميع الحقوق محفوظة لـ صوفي كرام © 2026</p>
+    <p id="footer-text">جميع الحقوق محفوظة لـ صوفيگرام © 2026</p>
 </footer>
 
 <script>
-    /* --- قسم الـ JS (البرمجة) --- */
     let currentLang = 'ar';
-    const content = {
-        en: {
-            title: "SOFYGRAM Solutions",
-            desc: "We design a unique digital footprint for you. Professional personal pages, model restaurant apps, and innovative software solutions.",
-            btn: "Start Your Project Now",
-            p1t: "Model Restaurant", p1d: "Integrated restaurant systems with smart dashboards and interactive menus.",
-            p2t: "Personal Pages", p2d: "Building distinctive portfolio websites for creators and professionals.",
-            p3t: "Diverse Apps", p3d: "Custom software solutions (Taxi, Games, Tools) with the latest technologies.",
-            wa: "Contact Us",
-            footer: "All rights reserved to SOFYGRAM © 2026",
-            langBtn: "عربي"
-        },
-        ar: {
-            title: 'صوفي <span class="kaf-style">كـ</span>رام للحلول',
-            desc: "نصمم لك بصمة رقمية فريدة. صفحات شخصية احترافية، تطبيقات مطاعم نموذجية، وحلول برمجية مبتكرة.",
-            btn: "ابدأ مشروعك الآن",
-            p1t: "مطعم نموذجي", p1d: "تصميم أنظمة مطاعم متكاملة مع لوحات تحكم ذكية ومنيو تفاعلي.",
-            p2t: "صفحات شخصية", p2d: "بناء مواقع تعريفية (Portfolio) مميزة للمبدعين وأصحاب المهن.",
-            p3t: "تطبيقات متنوعة", p3d: "حلول برمجية حسب الطلب (تكسي، ألعاب، أدوات) بأحدث التقنيات.",
-            wa: "تواصل معنا",
-            footer: "جميع الحقوق محفوظة لـ صوفي كرام © 2026",
-            langBtn: "English"
-        }
-    };
-
     function toggleLang() {
         currentLang = (currentLang === 'ar') ? 'en' : 'ar';
         const body = document.getElementById('page-body');
-        
-        if(currentLang === 'en') {
-            body.classList.add('en');
-            body.dir = "ltr";
-        } else {
-            body.classList.remove('en');
-            body.dir = "rtl";
-        }
+        body.classList.toggle('en');
+        body.dir = (currentLang === 'en') ? "ltr" : "rtl";
 
-        document.getElementById('hero-title').innerHTML = content[currentLang].title;
-        document.getElementById('hero-desc').innerText = content[currentLang].desc;
-        document.getElementById('main-btn').innerText = content[currentLang].btn;
-        document.getElementById('p1-title').innerText = content[currentLang].p1t;
-        document.getElementById('p1-desc').innerText = content[currentLang].p1d;
-        document.getElementById('p2-title').innerText = content[currentLang].p2t;
-        document.getElementById('p2-desc').innerText = content[currentLang].p2d;
-        document.getElementById('p3-title').innerText = content[currentLang].p3t;
-        document.getElementById('p3-desc').innerText = content[currentLang].p3d;
-        document.getElementById('wa-text').innerText = content[currentLang].wa;
-        document.getElementById('footer-text').innerText = content[currentLang].footer;
-        document.getElementById('lang-btn').innerText = content[currentLang].langBtn;
+        if(currentLang === 'en') {
+            document.getElementById('hero-title').innerHTML = 'SOFYGRAM Solutions';
+            document.getElementById('hero-desc').innerText = "We design a unique digital footprint for you. Professional personal pages, model restaurant apps, and innovative software solutions at the best prices.";
+            document.getElementById('main-btn').innerText = "Start Now";
+            document.getElementById('lang-btn').innerText = "عربي";
+        } else {
+            document.getElementById('hero-title').innerHTML = 'صوفيگرام للحلول <div class="orange-line"></div>';
+            document.getElementById('hero-desc').innerText = "نصمم لك بصمة رقمية فريدة. صفحات شخصية احترافية، تطبيقات مطاعم نموذجية، وحلول برمجية مبتكرة لأنسب الأسعار في العراق والعالم.";
+            document.getElementById('main-btn').innerText = "ابدأ مشروعك الآن";
+            document.getElementById('lang-btn').innerText = "English";
+        }
     }
 </script>
 
