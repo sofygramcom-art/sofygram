@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إدارة العيادة | صوفيگرام</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
+        .admin-card { background: #111; padding: 25px; border-radius: 20px; border: 1px solid #333; max-width: 500px; margin: 0 auto; }
+        .number-display { font-size: 8rem; color: #f39c12; margin: 10px 0; font-weight: bold; }
+        input { padding: 12px; border-radius: 10px; border: 1px solid #333; width: 85%; background: #000; color: #fff; margin-bottom: 15px; text-align: center; font-size: 1rem; }
+        .btn-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        button { border: none; padding: 15px 25px; font-size: 1.2rem; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; color: #fff; }
+        .btn-next { background: #2ecc71; flex: 2; font-size: 1.5rem; }
+        .btn-prev { background: #e67e22; flex: 1; }
+        .btn-status { background: #34495e; padding: 10px 20px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="admin-card">
+        <h2>لوحة السكرتير (SOFYGRAM)</h2>
+        <input type="text" id="name-in" placeholder="اسم العيادة..." value="العيادة النموذجية">
+        <input type="text" id="msg-in" placeholder="تنبيه للمشاهدين...">
+        <div class="number-display" id="num-out">1</div>
+        <div class="btn-group">
+            <button class="btn-prev" onclick="changeNum(-1)">⬅️ السابق</button>
+            <button class="btn-next" onclick="changeNum(1)">التالي ➡️</button>
+        </div>
+        <div class="btn-group">
+            <button class="btn-status" onclick="updateStatus('مفتوح الآن')">فتح ✅</button>
+            <button class="btn-status" style="background:#e74c3c" onclick="updateStatus('مغلق الآن')">غلق ❌</button>
+            <button class="btn-status" style="background:#444" onclick="resetNum()">تصفير 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // إعدادات Firebase الخاصة بك من الصورة
+        const firebaseConfig = {
+            apiKey: "AIzaSyBqlRUShD3182zmliJrDUzBXQjL_eXSKtY",
+            authDomain: "sofygramclinic.firebaseapp.com",
+            databaseURL: "https://sofygramclinic-default-rtdb.firebaseio.com",
+            projectId: "sofygramclinic",
+            storageBucket: "sofygramclinic.firebasestorage.app",
+            appId: "1:207475452149:web:3f0fbbcc1419bf9e6b7dbc"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let currentNum = 1;
+
+        // دالة إرسال البيانات للإنترنت
+        function sync() {
+            const name = document.getElementById('name-in').value;
+            const msg = document.getElementById('msg-in').value;
+            const status = localStorage.getItem('cStatus') || 'مفتوح الآن';
+            
+            db.ref('clinic/').set({
+                num: currentNum,
+                name: name,
+                msg: msg,
+                status: status
+            });
+            document.getElementById('num-out').innerText = currentNum;
+        }
+
+        function changeNum(step) {
+            currentNum += step;
+            if(currentNum < 1) currentNum = 1;
+            sync();
+        }
+
+        function updateStatus(s) {
+            localStorage.setItem('cStatus', s);
+            sync();
+            alert("تم التحديث");
+        }
+
+        function resetNum() {
+            if(confirm("تصفير؟")) { currentNum = 1; sync(); }
+        }
+
+        // تحديث عند الكتابة
+        document.getElementById('name-in').oninput = sync;
+        document.getElementById('msg-in').oninput = sync;
+    </script>
+</body>
+</html>
