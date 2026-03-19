@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#FF6600">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطعم نموذجي جوكر</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fdfbf9; padding: 10px; direction: rtl; margin: 0; padding-bottom: 300px; }
+        .card { background: white; width: 100%; max-width: 500px; margin: auto; padding: 15px; border-radius: 20px; border: 2px solid #FF6600; }
+        .header { text-align: center; color: #FF6600; font-size: 24px; font-weight: bold; border-bottom: 3px solid #FF6600; padding-bottom: 10px; margin-bottom: 20px;}
+        .st { background: #2c3e50; color: white; padding: 12px; border-radius: 10px; margin: 25px 0 15px 0; font-size: 18px; border-right: 6px solid #FF6600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;}
+        .row { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .item-name { display: block; text-align: center; font-weight: bold; font-size: 17px; margin-bottom: 10px; color: #333; }
+        .ctrl { display: flex; justify-content: space-between; align-items: center; background: #fff5ed; padding: 10px; border-radius: 12px; }
+        .btn { border: none; width: 45px; height: 45px; border-radius: 10px; font-size: 24px; cursor: pointer; color: white; font-weight: bold; transition: 0.2s; }
+        .bp { background: #27ae60; } .bm { background: #e74c3c; }
+        .disp { text-align: center; flex-grow: 1; }
+        .wt { font-size: 14px; color: #555; display: block; font-weight: bold; }
+        .pt { font-size: 16px; color: #FF6600; font-weight: bold; }
+        .footer-fixed { position: fixed; bottom: 0; left: 0; right: 0; background: #2c3e50; color: white; padding: 15px; border-top: 4px solid #FF6600; z-index: 1000; max-width: 500px; margin: auto; }
+        #cart-text { font-size: 13px; color: #f1c40f; margin-bottom: 8px; max-height: 50px; overflow-y: auto; border-bottom: 1px solid #444; text-align: right; }
+        .total-line { font-size: 22px; font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 10px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; text-align: right; box-sizing: border-box; font-size: 16px; }
+        .action-btns { display: flex; gap: 10px; flex-direction: column; }
+        .wa-btn { background: #25d366; color: white; border: none; width: 100%; padding: 15px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; }
+        .chat-btn { background: #075E54; color: white; border: none; width: 100%; padding: 15px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; display: block; line-height: 20px; }
+        .call-btn { background: #007bff; color: white; border: none; width: 100%; padding: 15px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; display: block; line-height: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">🍊 مطعم نموذجي جوكر</div>
+    <div id="m-body"></div>
+    <input type="text" id="c-name" placeholder="اسم الزبون الكريم">
+    <input type="text" id="c-addr" placeholder="العنوان">
+    <input type="text" id="c-note" placeholder="ملاحظات الطلب">
+    
+    <div class="action-btns">
+        <button class="wa-btn" onclick="sendWA()">إرسال قائمة الطلبات ✅</button>
+        <a href="https://wa.me/9647807466488" class="chat-btn">دردشة واستفسار 💬</a>
+        <a href="tel:9647807466488" class="call-btn">إتصال مباشر 📞</a>
+    </div>
+</div>
+
+<div class="footer-fixed">
+    <div id="cart-text">قائمة الطلبات: فارغة</div>
+    <div class="total-line"><span>المجموع:</span><span><span id="final-total">0</span> د.ع</span></div>
+</div>
+
+<script>
+function formatW(i) {
+    if (i === 0.25) return "ربع كغم";
+    if (i === 0.5) return "نص كغم";
+    if (i === 0.75) return "كيلو إلا ربع";
+    if (Number.isInteger(i)) return i + " كغم";
+    let main = Math.floor(i), frac = i - main;
+    let txt = main + (frac === 0.25 ? " وربع" : frac === 0.5 ? " ونصف" : " و3 أرباع") + " كغم";
+    return txt;
+}
+
+function genList(type) {
+    let a = ["إختر"];
+    if(type === "Q") { for(let i = 0.25; i <= 20; i += 0.25) a.push(formatW(i)); }
+    else if(type === "H") { for(let i = 0.5; i <= 20; i += 0.25) a.push(formatW(i)); }
+    else if(type === "K") { for(let i=1; i<=50; i++) a.push(i + " كغم"); }
+    else if(type === "M") { for(let i=1; i<=50; i++) a.push(i + " ماعون"); }
+    else { for(let i=1; i<=50; i++) a.push(i + " قطعة/وجبة"); }
+    return a;
+}
+
+var L = { M: genList("M"), Q: genList("Q"), H: genList("H"), K: genList("K"), P: genList("P") };
+
+var items = [
+    { s: "🔥 المشاوي", n: "كباب لحم (الربع المرتب)", p: 5000, t: "M" },
+    { s: "🔥 المشاوي", n: "كباب لحم (نص كيلو فأكثر)", p: 18000, t: "H" },
+    { s: "🔥 المشاوي", n: "كباب دجاج", p: 16000, t: "Q" },
+    { s: "🔥 المشاوي", n: "كبدة شوي", p: 20000, t: "Q" },
+    { s: "🔥 المشاوي", n: "كبدة بدون شوي", p: 18000, t: "Q" },
+    { s: "🔥 المشاوي", n: "تكة لحم شوي", p: 24000, t: "Q" },
+    { s: "🔥 المشاوي", n: "تكة لحم بدون شوي", p: 22000, t: "Q" },
+     { s: "🔥 المشاوي", n: "تكة دجاج شوي", p: 20000, t: "Q" },
+    { s: "🔥 المشاوي", n: "تكة دجاج بدون شوي", p: 16000, t: "Q" },
+    { s: "🔥 المشاوي", n: "أجنحة شوي", p: 12000, t: "H" },
+    { s: "🔥 المشاوي", n: "أجنحة بدون شوي", p: 10000, t: "H" },
+    { s: "🔥 المشاوي", n: "عصا شوي", p: 12000, t: "H" },
+    { s: "🔥 المشاوي", n: "عصا بدون شوي", p: 10000, t: "H" },
+    { s: "🔥 المشاوي", n: "دجاجة شوي", p: 12000, t: "H" },
+    { s: "🔥 المشاوي", n: "دجاجة بدون شوي", p: 10000, t: "H" },
+        { s: "🥩 اللحوم", n: "لحم غنم", p: 24000, t: "Q" },
+    { s: "🥩 اللحوم", n: "لحم عجل شرح", p: 16000, t: "Q" },
+    { s: "🥩 اللحوم", n: "لحم  عجل عظم", p: 14000, t: "Q" },
+    { s: "🥩 اللحوم", n: "لحم مثروم", p: 16000, t: "Q" },
+    { s: "🥩 اللحوم", n: "ليه", p: 20000, t: "Q" },
+    { s: "🥩 اللحوم", n: "عظم", p: 3000, t: "K" },
+    { s: "🥩 فرش 🍖", n: "دجاجة كامله 1250غم", p: 8000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "عصا طبل  900غم", p: 7000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "افخاذ  900غم", p: 6000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "جبده دجاج  500غم", p: 3000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "صدر دجاج  900غم", p: 7500, t: "P" },
+    { s: "🥩 فرش 🍖", n: "باجة غنم", p: 20000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "بركر لحم", p: 16000, t: "H" },
+    { s: "🥩 فرش 🍖", n: "بركر دجاج", p: 16000, t: "H" },
+    { s: "🥩 فرش 🍖", n: "كبة تمن 4 قطع", p: 4000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "كبة مرق 4 قطع", p: 4000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "كاهي 3 قطع", p: 5000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "لسان عجل ", p: 12000, t: "K" },
+    { s: "🥩 فرش 🍖", n: "كراعين  ", p: 8000, t: "K" },
+    { s: "🥩 فرش 🍖", n: "معلاك غنم", p: 18000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "مخ غنم", p: 5000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "جلاوي غنم", p: 18000, t: "H" },
+    { s: "🥩 فرش 🍖", n: "عصائص غنم", p: 15000, t: "H" },
+    { s: "🥩 فرش 🍖", n: "قلب عجل شوي", p: 20000, t: "P" },
+    { s: "🥩 فرش 🍖", n: "قلب عجل بدون شوي", p: 18000, t: "P" },
+];
+
+var cart = {};
+
+function calc(i, q) {
+    if (q === 0) return 0;
+    let it = items[i];
+    if (it.t === "Q") return (q * 0.25) * it.p;
+    if (it.t === "H") return ((q + 1) * 0.25) * it.p;
+    return q * it.p;
+}
+
+function start() {
+    let h = ""; let lastS = "";
+    items.forEach((it, i) => {
+        if (it.s !== lastS) { h += '<div class="st">' + it.s + '</div>'; lastS = it.s; }
+        let q = cart[i] || 0;
+        let txt = L[it.t][q];
+        let pr = (q === 0) ? (it.t === "H" ? it.p/2 : it.p) : calc(i, q);
+        h += '<div class="row"><span class="item-name">'+it.n+'</span><div class="ctrl"><button class="btn bp" onclick="up('+i+',1)">+</button><div class="disp"><span class="wt">'+txt+'</span><span class="pt">'+pr.toLocaleString()+' د.ع</span></div><button class="btn bm" onclick="up('+i+',-1)">-</button></div></div>';
+    });
+    document.getElementById('m-body').innerHTML = h;
+    update();
+}
+
+function up(i, v) { if ( (cart[i]||0)+v >= 0 && (cart[i]||0)+v < L[items[i].t].length) { cart[i] = (cart[i]||0)+v; start(); } }
+
+function update() {
+    let t = 0; let list = [];
+    items.forEach((it, i) => { if (cart[i] > 0) { t += calc(i, cart[i]); list.push(it.n + " (" + L[it.t][cart[i]] + ")"); } });
+    document.getElementById('final-total').innerText = t.toLocaleString();
+    document.getElementById('cart-text').innerText = list.length ? list.join(" | ") : "قائمة الطلبات: فارغة";
+}
+
+function sendWA() {
+    let n = document.getElementById('c-name').value, a = document.getElementById('c-addr').value, nt = document.getElementById('c-note').value;
+    if (!n || !a) return alert("يرجى إكمال البيانات");
+    let msg = `*طلب جديد من مطعم نموذجي جوكر*\n👤 الاسم: ${n}\n📍 العنوان: ${a}\n📝 ملاحظات: ${nt}\n\n🍴 الطلبات:\n`;
+    items.forEach((it, i) => { if (cart[i] > 0) msg += `- ${it.n} (${L[it.t][cart[i]]})\n`; });
+    window.open("https://wa.me/9647807466488?text=" + encodeURIComponent(msg + "\n💰 المجموع: " + document.getElementById('final-total').innerText + " د.ع"));
+}
+window.onload = start;
+</script>
+</body>
+</html>
